@@ -25,6 +25,7 @@
  */
 
 #include "dc_trace.h"
+#include "dc_fpu.h"
 
 #include <linux/fpu.h>
 

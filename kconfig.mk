@@ -54,7 +54,10 @@ KCONFIG+=	ARCH_HAVE_NMI_SAFE_CMPXCHG \
 .if ${MACHINE_CPUARCH} == "aarch64"
 KCONFIG+=	64BIT \
 		ACPI \
-		ARM64
+		ARM64 \
+		COMPAT
+
+KCONFIG+=	DRM_AMD_DC_FP
 .endif
 
 .if ${MACHINE_CPUARCH} == "i386" || ${MACHINE_CPUARCH} == "amd64"
@@ -80,7 +83,7 @@ KCONFIG+=	DRM_AMD_DC_FP
 .if ${MACHINE_ARCH:Mpowerpc64*} != ""
 KCONFIG+=	64BIT \
 		PPC64
-		
+
 # DCN is only compile-tested.
 KCONFIG+=	DRM_AMD_DC_DCN \
 		DRM_AMD_DC_DCN3_0
