@@ -1233,6 +1233,80 @@ CFLAGS.rc_calc.c= ${FPUFLAGS} -mstack-alignment=4
 CFLAGS.rc_calc_dpi.c= ${FPUFLAGS} -mstack-alignment=4
 CFLAGS.rc_calc_fpu.c= ${FPUFLAGS} -mstack-alignment=4
 
+.if ${MACHINE_ARCH} == "aarch64"
+
+SRCS.aarch64= \
+	dcn_calcs.c \
+	dcn_calc_auto.c \
+	dcn_calc_math.c \
+	dcn20_fpu.c \
+	dcn20_resource.c \
+	dcn21_resource.c \
+	dcn30_fpu.c \
+	dcn30_resource.c \
+	dcn301_fpu.c \
+	dcn302_fpu.c \
+	dcn301_resource.c \
+	dcn303_fpu.c \
+	dcn31_fpu.c \
+	dcn31_resource.c \
+	dcn314_fpu.c \
+	dcn32_fpu.c \
+	dcn32_resource.c \
+	dcn32_resource_helpers.c \
+	dcn321_fpu.c \
+	dcn35_fpu.c \
+	dcn351_fpu.c \
+
+SRCS.aarch64+= \
+	display_mode_core.c \
+	display_mode_util.c \
+	dml_display_rq_dlg_calc.c \
+	dml2_dc_resource_mgmt.c \
+	dml2_mall_phantom.c \
+	dml2_policy.c \
+	dml2_translation_helper.c \
+	dml2_utils.c \
+	dml2_wrapper.c
+
+SRCS.aarch64+= \
+	display_mode_lib.c \
+	display_mode_vba.c \
+	display_mode_vba_20.c \
+	display_mode_vba_21.c \
+	display_mode_vba_30.c \
+	display_mode_vba_31.c \
+	display_mode_vba_314.c \
+	display_mode_vba_32.c \
+	display_mode_vba_util_32.c \
+	display_pipe_clocks.c \
+	dml1_display_rq_dlg_calc.c \
+	display_rq_dlg_helpers.c \
+	display_rq_dlg_calc_20.c \
+	display_rq_dlg_calc_21.c \
+	display_rq_dlg_calc_314.c \
+	display_rq_dlg_calc_32.c \
+	soc_bounding_box.c
+
+SRCS.aarch64+= \
+	display_rq_dlg_calc_20v2.c \
+	display_mode_vba_20v2.c \
+	display_rq_dlg_calc_30.c \
+	display_rq_dlg_calc_31.c
+
+SRCS.aarch64+= \
+	rc_calc.c \
+	rc_calc_dpi.c \
+	rc_calc_fpu.c
+
+# For arm64, we are forced to rewrite the compiler invocation for those source
+# files, to remove -mgeneral-regs-only.
+${SRCS.aarch64:M*.c:S/c/o/}: ${.TARGET:R}.c
+	${CC} ${STATIC_CFLAGS} ${CFLAGS:N-mgeneral-regs-only} -c ${.IMPSRC} \
+		-o ${.TARGET}
+
+.endif
+
 .if ${MACHINE_CPUARCH} != "powerpc"
 CWARNFLAGS+=	-Wno-expansion-to-defined
 .endif
